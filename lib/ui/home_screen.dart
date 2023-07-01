@@ -45,12 +45,33 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 suffixIcon: IconButton(
                   onPressed: () async {
-                    viewModel.fetch(_controller.text);
+                    context.read<HomeViewModel>().fetch(_controller.text);
                   },
                   icon: const Icon(Icons.search),
                 ),
               ),
             ),
+          ),
+          Consumer<HomeViewModel>(
+            builder: (_, viewModel, child) {
+              return Expanded(
+                child: GridView.builder(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: viewModel.photos.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16,
+                  ),
+                  itemBuilder: (context, index) {
+                    final photo = viewModel.photos[index];
+                    return PhotoWidget(
+                      photo: photo,
+                    );
+                  },
+                ),
+              );
+            },
           ),
         ],
       ),
