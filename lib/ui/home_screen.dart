@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:search_image_app/data/photo_provider.dart';
-import 'package:search_image_app/model/photo.dart';
 import 'package:search_image_app/ui/home_view_model.dart';
 import 'package:search_image_app/ui/widget/photo_widget.dart';
 
@@ -23,8 +21,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<HomeViewModel>();
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
