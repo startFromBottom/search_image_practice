@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:search_image_app/data/photo_api_repository.dart';
 import 'package:search_image_app/model/photo.dart';
