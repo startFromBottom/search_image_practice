@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:search_image_app/data/pixabay_api.dart';
-import 'package:search_image_app/ui/home_screen.dart';
-import 'package:search_image_app/ui/home_view_model.dart';
+import 'package:http/http.dart' as http;
+import 'package:search_image_app/data/repository/photo_api_repository_impl.dart';
+
+import 'data/data_source/pixabay_api.dart';
+import 'presentation/home/home_screen.dart';
+import 'presentation/home/home_view_model.dart';
 
 void main() {
   runApp(const MainApp());
@@ -15,7 +18,8 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: ChangeNotifierProvider(
-        create: (_) => HomeViewModel(PixabayApi()),
+        create: (_) =>
+            HomeViewModel(PhotoApiRepositoryImpl(PixabayApi(http.Client()))),
         child: const HomeScreen(),
       ),
     );

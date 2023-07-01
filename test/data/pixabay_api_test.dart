@@ -1,7 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:search_image_app/data/pixabay_api.dart';
+import 'package:search_image_app/data/data_source/pixabay_api.dart';
+import 'package:search_image_app/data/repository/photo_api_repository_impl.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -12,8 +13,8 @@ void main() {
   test(
     "Pixabay 데이터를 잘 가져와야 한다",
     () async {
-      final api = PixabayApi();
       final client = MockClient();
+      final api = PhotoApiRepositoryImpl(PixabayApi(client));
 
       when(
         client.get(
@@ -24,7 +25,7 @@ void main() {
         (_) async => http.Response(fakeJsonBody, 200),
       );
 
-      final result = await api.fetch('iphone', client: client);
+      final result = await api.fetch('iphone');
 
       expect(result.first.id, 2681039);
 
