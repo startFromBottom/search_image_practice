@@ -4,11 +4,12 @@ import 'package:flutter/widgets.dart';
 import 'package:search_image_app/data/data_source/result.dart';
 import 'package:search_image_app/domain/repository/photo_api_repository.dart';
 import 'package:search_image_app/domain/model/photo.dart';
+import 'package:search_image_app/domain/use_case/get_photos_use_case.dart';
 import 'package:search_image_app/presentation/home/home_state.dart';
 import 'package:search_image_app/presentation/home/home_ui_event.dart';
 
 class HomeViewModel with ChangeNotifier {
-  final PhotoApiRepository repository;
+  final GetPhotosUseCase getPhotosUseCase;
 
   HomeState _state = HomeState([], false);
   HomeState get state => _state;
@@ -22,14 +23,15 @@ class HomeViewModel with ChangeNotifier {
   final _eventController = StreamController<HomeUiEvent>();
   Stream<HomeUiEvent> get eventStream => _eventController.stream;
 
-  HomeViewModel(this.repository);
+  HomeViewModel(this.getPhotosUseCase);
 
   Future<void> fetch(String query) async {
     // 상태가 변할 때 마다 notifyListeners() 사용!
     _state = state.copyWith(isLoading: true);
     notifyListeners();
 
-    final Result<List<Photo>> result = await repository.fetch(query);
+    // dart에서 call 메서드 : 생략 가능!
+    final Result<List<Photo>> result = await getPhotosUseCase(query);
 
     result.when(
       success: (photos) {

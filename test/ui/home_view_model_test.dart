@@ -2,13 +2,15 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:search_image_app/data/data_source/result.dart';
 import 'package:search_image_app/domain/repository/photo_api_repository.dart';
 import 'package:search_image_app/domain/model/photo.dart';
+import 'package:search_image_app/domain/use_case/get_photos_use_case.dart';
 import 'package:search_image_app/presentation/home/home_view_model.dart';
 
 void main() {
   test(
     "Stream must work well",
     () async {
-      final viewModel = HomeViewModel(FakePhotoApiRepository());
+      final viewModel =
+          HomeViewModel(GetPhotosUseCase(FakePhotoApiRepository()));
 
       await viewModel.fetch("apple");
       final result = fakeJson.map((e) => Photo.fromJson(e)).toList();
