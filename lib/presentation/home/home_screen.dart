@@ -76,23 +76,27 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Consumer<HomeViewModel>(
             builder: (_, viewModel, child) {
-              return Expanded(
-                child: GridView.builder(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: viewModel.photos.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
-                  ),
-                  itemBuilder: (context, index) {
-                    final photo = viewModel.photos[index];
-                    return PhotoWidget(
-                      photo: photo,
+              final state = viewModel.state;
+
+              return state.isLoading
+                  ? const CircularProgressIndicator()
+                  : Expanded(
+                      child: GridView.builder(
+                        padding: const EdgeInsets.all(16),
+                        itemCount: state.photos.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 16,
+                          mainAxisSpacing: 16,
+                        ),
+                        itemBuilder: (context, index) {
+                          final photo = viewModel.state.photos[index];
+                          return PhotoWidget(
+                            photo: photo,
+                          );
+                        },
+                      ),
                     );
-                  },
-                ),
-              );
             },
           ),
         ],
