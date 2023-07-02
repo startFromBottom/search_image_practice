@@ -2,9 +2,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:search_image_app/data/data_source/pixabay_api.dart';
+import 'package:search_image_app/data/data_source/result.dart';
 import 'package:search_image_app/data/repository/photo_api_repository_impl.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:search_image_app/domain/model/photo.dart';
 
 import 'pixabay_api_test.mocks.dart';
 
@@ -25,9 +27,9 @@ void main() {
         (_) async => http.Response(fakeJsonBody, 200),
       );
 
-      final result = await api.fetch('iphone');
+      final Result<List<Photo>> result = await api.fetch('iphone');
 
-      expect(result.first.id, 2681039);
+      expect((result as Success<List<Photo>>).data.first.id, 2681039);
 
       verify(
         client.get(
